@@ -9,11 +9,11 @@ domain: Xoutu.be
 <div id="yt"></div>
 
 <form name="link">
-<div style="margin-top: 5px"><input name="yt" type="text" value="" placeholder="Paste: ...youtube.com/watch?v=..."></div>
+<div style="margin-top: 5px"><input name="yt" type="text" value="" placeholder="Paste: ...youtube.com/watch?v=... or playlist?list=..."></div>
 {% include hx.html text="Watch YouTube video!" href="javascript:getYouTube(true);" title="Watch YouTube" %}
 </form>
 
-To watch any video, paste a YouTube link. Works with *youtube.com, m.youtube.com, youtu.be* or just the bare unique YouTube video ID. Also works with *LIVE* video links and *Shorts*.
+To watch any video, paste a YouTube link. Works with *youtube.com, m.youtube.com, youtu.be* or just the bare unique YouTube video ID. Also works with *LIVE* video links, *Shorts* and *playlists*.
 
 ## Share any YouTube video on iOS easily
 

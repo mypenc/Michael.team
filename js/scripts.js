@@ -32,6 +32,7 @@ function getYouTube(input = false) {
 	let yt = '';
 	let ytlink = '';
 	let isShort = false;
+	let pl = '';
 	if (input) {
 		ytlink = document.forms.link.yt.value;
 		window.scrollTo(0, 0);
@@ -46,20 +47,29 @@ function getYouTube(input = false) {
 			}
 		}
 	}
+	if (ytlink) {
+		let list = ytlink.match(/[?&]list=([a-zA-Z0-9_-]+)/);
+		if (list) pl = list[1];
+		else if (/^(PL|UU|OL|FL)[a-zA-Z0-9_-]{10,}$/.test(ytlink)) pl = ytlink;
+	}
+	if (!pl && !input) pl = new URLSearchParams(window.location.search).get('list') || '';
 	if (!yt && ytlink) {
 		let video = ytlink.match(/(?:youtube\.com\/(shorts)\/|youtube\.com\/(?:live\/|watch\?(?:.*&)?v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
 		if (video) { isShort = !!video[1]; yt = video[2]; }
 	}
-	if (yt) {
+	if (yt || pl) {
 		//set dimensions based on short or regular video
 		let w = isShort ? 270 : 853;
 		//set meta attributes
-		document.querySelector('meta[name="twitter:image"]').setAttribute("content", 'https://i.ytimg.com/vi/'+yt+'/maxresdefault.jpg');
-		document.querySelector('meta[property="og:image"]').setAttribute("content", 'https://i.ytimg.com/vi/'+yt+'/maxresdefault.jpg');
+		if (yt) {
+			document.querySelector('meta[name="twitter:image"]').setAttribute("content", 'https://i.ytimg.com/vi/'+yt+'/maxresdefault.jpg');
+			document.querySelector('meta[property="og:image"]').setAttribute("content", 'https://i.ytimg.com/vi/'+yt+'/maxresdefault.jpg');
+		}
+		let src = (yt ? yt : 'videoseries') + (pl ? '?list=' + pl : '');
 		//embed video
-		document.querySelector("#yt").innerHTML = '<div id="embed" class="embed-container"><iframe src="https://www.youtube-nocookie.com/embed/' + yt + '" width="'+w+'" height="480" frameborder="0" webkitallowfullscreen="1" mozallowfullscreen="1" allowfullscreen="1"></iframe></div>';
+		document.querySelector("#yt").innerHTML = '<div id="embed" class="embed-container"><iframe src="https://www.youtube-nocookie.com/embed/' + src + '" width="'+w+'" height="480" frameborder="0" webkitallowfullscreen="1" mozallowfullscreen="1" allowfullscreen="1"></iframe></div>';
 		//add page to browser history if it was from input
-		if (input) window.history.pushState('video','YouTube watcher - Michael.team','https://michael.team/yt/?yt=https://www.youtube.com/watch?v='+yt);
+		if (input) window.history.pushState('video','YouTube watcher - Michael.team','https://michael.team/yt/?yt=https://www.youtube.com/'+(yt ? 'watch?v='+yt+(pl ? '&list='+pl : '') : 'playlist?list='+pl));
 	}
 }
 

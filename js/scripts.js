@@ -69,7 +69,7 @@ function getYouTube(input = false) {
 		//embed video
 		document.querySelector("#yt").innerHTML = '<div id="embed" class="embed-container"><iframe src="https://www.youtube-nocookie.com/embed/' + src + '" width="'+w+'" height="480" frameborder="0" webkitallowfullscreen="1" mozallowfullscreen="1" allowfullscreen="1"></iframe></div>';
 		//add page to browser history if it was from input
-		if (input) window.history.pushState('video','YouTube watcher - Michael.team','https://michael.team/yt/?yt=https://www.youtube.com/'+(yt ? 'watch?v='+yt+(pl ? '&list='+pl : '') : 'playlist?list='+pl));
+		if (input) window.history.pushState('video','YouTube watcher - Michael.team',window.location.pathname+'?yt=https://www.youtube.com/'+(yt ? 'watch?v='+yt+(pl ? '&list='+pl : '') : 'playlist?list='+pl));
 	}
 }
 
